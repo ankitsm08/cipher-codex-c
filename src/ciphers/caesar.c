@@ -1,15 +1,14 @@
 #include "ciphers/caesar.h"
 #include "cipher.h"
+#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
 static char shift_char(const char ch, int shift) {
-  if ('a' <= ch && ch <= 'z') {
+  if ('a' <= ch && ch <= 'z')
     return 'a' + (ch - 'a' + shift) % 26;
-  }
-  if ('A' <= ch && ch <= 'Z') {
+  if ('A' <= ch && ch <= 'Z')
     return 'A' + (ch - 'A' + shift) % 26;
-  }
   return ch;
 }
 
