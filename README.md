@@ -68,7 +68,7 @@ cc -Iinclude -std=c11 -Wall -Wextra \
 ./cipher
 ```
 
-If using just:
+If using `just`:
 
 ```bash
 # List available recipes
@@ -88,16 +88,24 @@ just run
 just clean
 ```
 
+Demo run of the CLI:
+
 ```bash
 $ ./cipher
+Operations:
+1. Encrypt
+2. Decrypt
+Choose the operation: 1
 Available Ciphers:
-[0] Caesar
-Enter the cipher id: 0
+[1] Caesar
+[2] ROT13
+[3] Atbash
+Enter the cipher id: 1
 Enter your message:
-Hello World
+Hello World!
 Enter the key: 3
 Result:
-Khoor Zruog
+Khoor Zruog!
 ```
 
 ## Design Philosophy
@@ -126,6 +134,8 @@ Ciphers are registered centrally:
 ```cpp
 static cipher_t cipher_registry[] = {
     {"Caesar", PARAM_NUMBER, caesar_encrypt, caesar_decrypt},
+    {"ROT13", PARAM_NONE, rot13_encrypt, rot13_decrypt},
+    {"Atbash", PARAM_NONE, atbash_encrypt, atbash_decrypt},
     ...
 };
 ```
@@ -137,7 +147,27 @@ Also abandoned it because C++ wasn’t the best fit for this kind of modular reg
 
 ## Implemented Ciphers
 
+### Classical
+
+#### Simple
+
 - Caesar Cipher (shift-based)
+- ROT13 Cipher (shift-based)
+- Atbash Cipher (mirror-based)
+
+<!-- For later --
+#### Mechanical
+
+### Modern
+
+#### Symmetric
+
+#### Hash and Integrity
+
+#### Asymmetric
+
+#### Elliptic Curve
+-->
 
 More classical and modern ciphers planned.
 
