@@ -1,8 +1,10 @@
 #include "cipher.h"
 #include "ciphers/caesar.h"
+#include "ciphers/rot13.h"
 
 static cipher_t cipher_registry[] = {
     {"Caesar", PARAM_NUMBER, caesar_encrypt, caesar_decrypt},
+    {"ROT13", PARAM_NONE, rot13_encrypt, rot13_decrypt},
 };
 
 size_t cipher_count(void) {
