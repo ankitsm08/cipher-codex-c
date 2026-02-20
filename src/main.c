@@ -7,9 +7,10 @@ enum operation { ENCRYPT, DECRYPT };
 
 int main(void) {
 
-  printf("Choose the operation: \n1. Encrypt\n2. Decrypt\n");
+  printf("Operations: \n1. Encrypt\n2. Decrypt\nChoose the operation: ");
   int operation;
   scanf("%d", &operation);
+  operation--;
   if (operation != ENCRYPT && operation != DECRYPT) {
     printf("Invalid operation\n");
     return 1;
@@ -20,12 +21,13 @@ int main(void) {
     const cipher_t *cipher = get_cipher(i);
     if (!cipher)
       continue;
-    printf("[%zu] %s\n", i, cipher->name);
+    printf("[%zu] %s\n", i + 1, cipher->name);
   }
 
   int cipher_id;
   printf("Enter the cipher id: ");
   scanf("%d", &cipher_id);
+  cipher_id--;
 
   const cipher_t *cipher = get_cipher(cipher_id);
   if (!cipher) {
@@ -33,11 +35,13 @@ int main(void) {
     return 1;
   }
 
-  char *input = malloc(1024);
+  char input[1024];
   printf("Enter your message: \n");
   scanf(" %1023[^\n]", input);
 
-  cipher_params_t params;
+  cipher_params_t params = {0};
+  char keyword[128];
+  params.string = keyword;
 
   switch (cipher->param_type) {
   case PARAM_NONE:
@@ -50,8 +54,6 @@ int main(void) {
 
   case PARAM_STRING:
     printf("Enter the keyword: ");
-    char keyword[128];
-    params.string = keyword;
     scanf("%127s", params.string);
     break;
   }
@@ -68,7 +70,6 @@ int main(void) {
   }
   printf("Result:\n%s\n", result);
 
-  free(input);
   free(result);
 
   return 0;
