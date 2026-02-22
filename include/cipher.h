@@ -6,11 +6,13 @@
 typedef enum cipher_params_type {
   PARAM_NONE,
   PARAM_NUMBER,
+  PARAM_2_NUMBERS,
   PARAM_STRING,
 } cipher_params_type_t;
 
 typedef struct cipher_params {
   int number;
+  int number2;
   char *string;
 } cipher_params_t;
 

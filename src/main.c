@@ -52,6 +52,13 @@ int main(void) {
     scanf("%d", &params.number);
     break;
 
+  case PARAM_2_NUMBERS:
+    printf("Enter the number 1: ");
+    scanf("%d", &params.number);
+    printf("Enter the number 2: ");
+    scanf("%d", &params.number2);
+    break;
+
   case PARAM_STRING:
     printf("Enter the keyword: ");
     scanf("%127s", params.string);
