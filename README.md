@@ -1,5 +1,7 @@
 # Cipher Codex (C)
 
+**Security Disclaimer**: This project is for educational purposes. The implemented ciphers are not secure for real-world cryptographic use.
+
 **TL;DR**: A modular C library of classical and modern ciphers. Fully data-driven, CLI-ready, and easy to extend. Heap-allocated strings, explicit memory rules, and no giant if/else chains.
 
 A modular, extensible collection of classical and modern cipher implementations written in **C**, with a clean registry-based architecture.
@@ -26,6 +28,7 @@ No frameworks. No magic. Just C.
 - Each cipher is self-contained
 - Explicit memory ownership rules
 - Easy to extend with new algorithms
+- On failure, cipher functions return `NULL` and do not modify global state.
 
 I ran into a lack of a clean, easy-to-use system for managing ciphers when I was making a cipher codex in C++.
 
@@ -58,6 +61,8 @@ I ran into a lack of a clean, easy-to-use system for managing ciphers when I was
 
 ## 🔧 Build & Run
 
+Run from project root:
+
 ```bash
 # Build
 cc -Iinclude -std=c11 -Wall -Wextra \
@@ -68,7 +73,7 @@ cc -Iinclude -std=c11 -Wall -Wextra \
 ./cipher
 ```
 
-If using `just`:
+If using `just` (recommended):
 
 ```bash
 # List available recipes
@@ -114,7 +119,7 @@ Khoor Zruog!
 
 All ciphers conform to this function signature:
 
-```cpp
+```c
 char *encrypt(const char *input, const cipher_params_t *params);
 char *decrypt(const char *input, const cipher_params_t *params);
 ```
@@ -131,7 +136,7 @@ This mirrors real-world C library ABI design.
 
 Ciphers are registered centrally:
 
-```cpp
+```c
 static cipher_t cipher_registry[] = {
     {"Caesar", PARAM_NUMBER, caesar_encrypt, caesar_decrypt},
     {"ROT13", PARAM_NONE, rot13_encrypt, rot13_decrypt},
@@ -145,15 +150,26 @@ Adding a new cipher does not require modifying `main.c`.
 This is the key feature of this project which was the reason for me abandoning my previous project in C++.
 Also abandoned it because C++ wasn’t the best fit for this kind of modular registry-based design.
 
+### Example Usage
+
+See main.c file for full example.
+
+```c
+const cipher_t *cipher = get_cipher(0);
+cipher_params_t params = { .number = 3 };
+char *result = cipher->encrypt("Hello", &params);
+```
+
 ## Implemented Ciphers
 
 ### Classical
 
 #### Simple
 
-- Caesar Cipher (shift-based)
-- ROT13 Cipher (shift-based)
-- Atbash Cipher (mirror-based)
+- Affine
+  - ROT13
+  - Atbash
+  - Caesar
 
 <!-- For later --
 #### Mechanical
@@ -178,11 +194,24 @@ More classical and modern ciphers planned.
 
 ## Further Reading
 
+### Programming, Design and Computing
+
+- [ABI (Application Binary Interface)](https://en.wikipedia.org/wiki/Application_binary_interface)
+- [Plugin-style architectures](<https://en.wikipedia.org/wiki/Plug-in_(computing)>)
+
+### C Language
+
 - [C Programming Language](https://en.wikipedia.org/wiki/C_Programming_Language)
 - [Function pointers in C](https://www.geeksforgeeks.org/function-pointer-in-c/)
 - [Memory management in C](https://www.w3schools.com/c/c_memory_management.php)
-- [ABI (Application Binary Interface)](https://en.wikipedia.org/wiki/Application_binary_interface)
-- [Plugin-style architectures](<https://en.wikipedia.org/wiki/Plug-in_(computing)>)
+
+### Cryptograhy
+
+- [Kerckhoffs's Principle](https://en.wikipedia.org/wiki/Kerckhoffs's_principle)
+
+### Math
+
+- [Extended Euclidean Algorithm](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm)
 
 ## License
 
