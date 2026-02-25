@@ -105,12 +105,17 @@ Available Ciphers:
 [1] Caesar
 [2] ROT13
 [3] Atbash
-Enter the cipher id: 1
+[4] Affine
+Enter the cipher id: 4
 Enter your message:
-Hello World!
-Enter the key: 3
+This is my message.
+Do you have a problem with it?
+
+Enter the number 1: 3
+Enter the number 2: 5
 Result:
-Khoor Zruog!
+Kadh dh pz prhhfxr.
+Ov zvn afqr f yevimrp tdka dk?
 ```
 
 ## Design Philosophy

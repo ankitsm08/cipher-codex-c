@@ -35,9 +35,30 @@ int main(void) {
     return 1;
   }
 
-  char input[1024];
+  int c, prev = 0, len = 0, cap = 16;
+  char *input = malloc(cap);
+
   printf("Enter your message: \n");
-  scanf(" %1023[^\n]", input);
+
+  while ((c = getchar()) != '\n' && c != EOF)
+    ;
+
+  while ((c = getchar()) != EOF) {
+    if (c == '\n' && prev == '\n')
+      break;
+    prev = c;
+    input[len++] = c;
+
+    if (len >= cap) {
+      cap *= 2;
+      input = realloc(input, cap);
+    }
+  }
+
+  if (len > 0 && input[len - 1] == '\n')
+    input[len - 1] = '\0';
+  else
+    input[len] = '\0';
 
   cipher_params_t params = {0};
   char keyword[128];
@@ -77,6 +98,7 @@ int main(void) {
   }
   printf("Result:\n%s\n", result);
 
+  free(input);
   free(result);
 
   return 0;
