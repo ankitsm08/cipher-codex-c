@@ -2,6 +2,7 @@
 #include "ciphers/affine.h"
 #include "ciphers/atbash.h"
 #include "ciphers/caesar.h"
+#include "ciphers/polybius_square.h"
 #include "ciphers/rot13.h"
 #include "ciphers/scytale.h"
 
@@ -11,6 +12,8 @@ static cipher_t cipher_registry[] = {
     {"Atbash", PARAM_NONE, atbash_encrypt, atbash_decrypt},
     {"Affine", PARAM_2_NUMBERS, affine_encrypt, affine_decrypt},
     {"Scytale", PARAM_NUMBER, scytale_encrypt, scytale_decrypt},
+    {"Polybius Square", PARAM_NONE, polybius_square_encrypt,
+     polybius_square_decrypt},
 };
 
 size_t cipher_count(void) {
