@@ -1,6 +1,7 @@
 #include "cipher.h"
 #include "ciphers/affine.h"
 #include "ciphers/atbash.h"
+#include "ciphers/beaufort.h"
 #include "ciphers/caesar.h"
 #include "ciphers/polybius_square.h"
 #include "ciphers/rot13.h"
@@ -16,6 +17,7 @@ static cipher_t cipher_registry[] = {
     {"Polybius Square", PARAM_NONE, polybius_square_encrypt,
      polybius_square_decrypt},
     {"Viginere", PARAM_STRING, vigenere_encrypt, vigenere_decrypt},
+    {"Beaufort", PARAM_STRING, beaufort_encrypt, beaufort_decrypt},
 };
 
 size_t cipher_count(void) {
