@@ -8,6 +8,7 @@
 #include "ciphers/rot13.h"
 #include "ciphers/scytale.h"
 #include "ciphers/vigenere.h"
+#include <stddef.h>
 
 static cipher_t cipher_registry[] = {
     {"Caesar", PARAM_NUMBER, caesar_encrypt, caesar_decrypt},
@@ -17,9 +18,9 @@ static cipher_t cipher_registry[] = {
     {"Scytale", PARAM_NUMBER, scytale_encrypt, scytale_decrypt},
     {"Polybius Square", PARAM_NONE, polybius_square_encrypt,
      polybius_square_decrypt},
-    {"Viginere", PARAM_STRING, vigenere_encrypt, vigenere_decrypt},
+    {"Vigenere", PARAM_STRING, vigenere_encrypt, vigenere_decrypt},
     {"Beaufort", PARAM_STRING, beaufort_encrypt, beaufort_decrypt},
-    {"Gronsfled", PARAM_STRING, gronsfeld_encrypt, gronsfeld_decrypt},
+    {"Gronsfeld", PARAM_STRING, gronsfeld_encrypt, gronsfeld_decrypt},
 };
 
 size_t cipher_count(void) {

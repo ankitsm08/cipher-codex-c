@@ -1,9 +1,9 @@
-#ifndef CAESAR_H
-#define CAESAR_H
+#ifndef CIPHERS_CAESAR_H
+#define CIPHERS_CAESAR_H
 
 #include "cipher.h"
 
-char *caesar_encrypt(const char *, const cipher_params_t *params);
-char *caesar_decrypt(const char *, const cipher_params_t *params);
+char *caesar_encrypt(const char *input, const cipher_params_t *params);
+char *caesar_decrypt(const char *input, const cipher_params_t *params);
 
-#endif // !CAESAR_H
+#endif // CIPHERS_CAESAR_H

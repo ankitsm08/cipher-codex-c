@@ -26,4 +26,4 @@ typedef struct cipher {
 size_t cipher_count(void);
 const cipher_t *get_cipher(size_t index);
 
-#endif // !CIPHER_H
+#endif // CIPHER_H

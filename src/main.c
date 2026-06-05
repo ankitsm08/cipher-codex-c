@@ -5,11 +5,15 @@
 
 enum operation { ENCRYPT, DECRYPT };
 
+#define STARTING_MESSAGE_CAP 16
+#define MAX_KEYWORD_LENGTH 128
+
 int main(void) {
 
   printf("Operations: \n1. Encrypt\n2. Decrypt\nChoose the operation: ");
   int operation;
-  scanf("%d", &operation);
+  if (scanf("%d", &operation) != 1)
+    return 1;
   operation--;
   if (operation != ENCRYPT && operation != DECRYPT) {
     printf("Invalid operation\n");
@@ -26,7 +30,8 @@ int main(void) {
 
   int cipher_id;
   printf("Enter the cipher id: ");
-  scanf("%d", &cipher_id);
+  if (scanf("%d", &cipher_id) != 1)
+    return 1;
   cipher_id--;
 
   const cipher_t *cipher = get_cipher(cipher_id);
@@ -35,7 +40,8 @@ int main(void) {
     return 1;
   }
 
-  int c, prev = 0, len = 0, cap = 16;
+  int len = 0, cap = STARTING_MESSAGE_CAP;
+  char c = 0, prev = 0;
   char *input = malloc(cap);
 
   printf("Enter your message: \n");
@@ -61,7 +67,7 @@ int main(void) {
     input[len] = '\0';
 
   cipher_params_t params = {0};
-  char keyword[128];
+  char keyword[MAX_KEYWORD_LENGTH];
   params.string = keyword;
 
   switch (cipher->param_type) {
@@ -70,23 +76,35 @@ int main(void) {
 
   case PARAM_NUMBER:
     printf("Enter the key: ");
-    scanf("%d", &params.number);
+    if (scanf("%d", &params.number) != 1) {
+      free(input);
+      return 1;
+    }
     break;
 
   case PARAM_2_NUMBERS:
     printf("Enter the number 1: ");
-    scanf("%d", &params.number);
+    if (scanf("%d", &params.number) != 1) {
+      free(input);
+      return 1;
+    }
     printf("Enter the number 2: ");
-    scanf("%d", &params.number2);
+    if (scanf("%d", &params.number2) != 1) {
+      free(input);
+      return 1;
+    }
     break;
 
   case PARAM_STRING:
     printf("Enter the keyword: ");
-    scanf("%127s", params.string);
+    if (scanf("%127s", params.string) != 1) {
+      free(input);
+      return 1;
+    }
     break;
   }
 
-  char *result;
+  char *result = NULL;
   if (operation == ENCRYPT) {
     result = cipher->encrypt(input, &params);
   } else {
@@ -94,6 +112,7 @@ int main(void) {
   }
   if (!result) {
     printf("Operation failed\n");
+    free(input);
     return 1;
   }
   printf("Result:\n%s\n", result);
