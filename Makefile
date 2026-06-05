@@ -1,7 +1,7 @@
 CC       = cc
 CFLAGS   = -Iinclude -std=c11 -Wall -Wextra -fsanitize=address -fsanitize=undefined -g -MMD
 LDFLAGS  = -fsanitize=address -fsanitize=undefined
-SRC      = $(wildcard src/*.c src/ciphers/*.c)
+SRC      = $(wildcard src/*.c src/ciphers/*.c src/utils/*.c)
 OBJ      = $(SRC:.c=.o)
 DEP      = $(OBJ:.o=.d)
 BIN      = cipher

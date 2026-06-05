@@ -1,4 +1,4 @@
-FILES := "src/*.c src/ciphers/*.c include/*.h include/ciphers/*.h"
+FILES := "src/*.c src/ciphers/*.c src/utils/*.c include/*.h include/ciphers/*.h include/utils/*.h"
 BIN := "cipher"
 
 default:

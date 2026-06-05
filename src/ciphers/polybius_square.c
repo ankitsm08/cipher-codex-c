@@ -1,11 +1,8 @@
 #include "ciphers/polybius_square.h"
 #include "cipher.h"
+#include "utils/alpha.h"
 #include <stdlib.h>
 #include <string.h>
-
-// Assumes input values from 0 to 9 only
-inline static char num_to_char(int num) { return (char)('0' + num); }
-inline static int char_to_num(char ch) { return (int)(ch - '0'); }
 
 // Case is lost
 static int substitute(char ch) {
