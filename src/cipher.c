@@ -5,6 +5,7 @@
 #include "ciphers/caesar.h"
 #include "ciphers/gronsfeld.h"
 #include "ciphers/polybius_square.h"
+#include "ciphers/rail_fence.h"
 #include "ciphers/rot13.h"
 #include "ciphers/scytale.h"
 #include "ciphers/vigenere.h"
@@ -21,6 +22,7 @@ static cipher_t cipher_registry[] = {
     {"Vigenere", PARAM_STRING, vigenere_encrypt, vigenere_decrypt},
     {"Beaufort", PARAM_STRING, beaufort_encrypt, beaufort_decrypt},
     {"Gronsfeld", PARAM_STRING, gronsfeld_encrypt, gronsfeld_decrypt},
+    {"Rail Fence", PARAM_NUMBER, rail_fence_encrypt, rail_fence_decrypt},
 };
 
 size_t cipher_count(void) {

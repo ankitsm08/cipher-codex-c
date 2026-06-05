@@ -48,32 +48,37 @@ I ran into a lack of a clean, easy-to-use system for managing ciphers when I was
 │   ├── cipher.c    # Core registry and API implementation
 │   └── main.c      # CLI interface
 ├── tests/
-└── justfile        # Build recipes
+├── .clang-format   # Code formatting rules
+├── justfile        # Build, format, lint recipes
+└── Makefile        # Build system
 ```
 
 ---
 
 ## Requirements
 
-- Unix-like OS (Linux/macOS) for `cc` and `just` usage
+- Unix-like OS (Linux/macOS) for `cc` usage
 - C11-compatible compiler
-- Optional: [just](https://github.com/casey/just) and [bear](https://github.com/rizsotto/Bear) for build automation
+- `make` (comes with your system, run `make --version` to check)
+- Optional: [just](https://github.com/casey/just) for the extra recipes
+- Optional: `clang-format`, `clang-tidy`, `bear` for formatting, linting, and compile commands
 
 ## 🔧 Build & Run
 
 Run from project root:
 
 ```bash
-# Build
-cc -Iinclude -std=c11 -Wall -Wextra \
-   src/main.c src/cipher.c src/ciphers/*.c \
-   -o cipher
+# Build (includes sanitizers and debug info by default)
+make
 
 # Run
 ./cipher
+
+# Clean
+make clean
 ```
 
-If using `just` (recommended):
+Or if using `just`:
 
 ```bash
 # List available recipes
@@ -82,8 +87,13 @@ just --list
 # Only build
 just build
 
-# Generate compile_commands.json
-#! Requires `bear` to be installed
+# Format all source files
+just format
+
+# Run clang-tidy on everything
+just lint
+
+# Generate compile_commands.json (requires bear)
 just build-db
 
 # Build and run
@@ -106,16 +116,21 @@ Available Ciphers:
 [2] ROT13
 [3] Atbash
 [4] Affine
-Enter the cipher id: 4
+[5] Scytale
+[6] Polybius Square
+[7] Vigenere
+[8] Beaufort
+[9] Gronsfeld
+[10] Rail Fence
+Enter the cipher id: 1
 Enter your message:
 This is my message.
 Do you have a problem with it?
 
-Enter the number 1: 3
-Enter the number 2: 5
+Enter the key: 3
 Result:
-Kadh dh pz prhhfxr.
-Ov zvn afqr f yevimrp tdka dk?
+Wklv lv pb phvvdjh.
+Gr brx kdyh d sureohp zlwk lw?
 ```
 
 ## Design Philosophy
@@ -146,7 +161,10 @@ static cipher_t cipher_registry[] = {
     {"Caesar", PARAM_NUMBER, caesar_encrypt, caesar_decrypt},
     {"ROT13", PARAM_NONE, rot13_encrypt, rot13_decrypt},
     {"Atbash", PARAM_NONE, atbash_encrypt, atbash_decrypt},
-    ...
+    {"Affine", PARAM_2_NUMBERS, affine_encrypt, affine_decrypt},
+    {"Scytale", PARAM_NUMBER, scytale_encrypt, scytale_decrypt},
+    {"Vigenere", PARAM_STRING, vigenere_encrypt, vigenere_decrypt},
+    {"Rail Fence", PARAM_NUMBER, rail_fence_encrypt, rail_fence_decrypt},
 };
 ```
 
@@ -169,12 +187,16 @@ char *result = cipher->encrypt("Hello", &params);
 
 ### Classical
 
-#### Simple
-
 - Affine
-  - ROT13
   - Atbash
   - Caesar
+  - ROT13
+- Beaufort
+- Gronsfeld
+- Polybius Square
+- Scytale
+- Vigenere
+- Rail Fence
 
 <!-- For later --
 #### Mechanical
@@ -189,8 +211,6 @@ char *result = cipher->encrypt("Hello", &params);
 
 #### Elliptic Curve
 -->
-
-More classical and modern ciphers planned.
 
 ## Future Ideas?
 
