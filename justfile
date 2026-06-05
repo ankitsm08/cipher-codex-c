@@ -1,18 +1,23 @@
-SRC := "src/main.c src/cipher.c src/ciphers/*.c"
+FILES := "src/*.c src/ciphers/*.c include/*.h include/ciphers/*.h"
 BIN := "cipher"
 
 default:
-  @just --list
+    @just --list
+
+format:
+    clang-format -i {{ FILES }}
+
+lint:
+    clang-tidy {{ FILES }} --checks='*' -- -Iinclude
 
 build:
-  cc -Iinclude -std=c11 -Wall -Wextra {{SRC}} -o {{BIN}}
+    make
 
 build-db:
-  bear -- just build
+    bear -- make
 
 run: build
-  ./{{BIN}}
+    ./{{ BIN }}
 
 clean:
-  rm -f {{BIN}} compile_commands.json
-
+    rm -f {{ BIN }} compile_commands.json

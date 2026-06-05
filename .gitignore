@@ -6,3 +6,5 @@ compile_commands.json
 
 # build files
 cipher
+*.o
+*.d
