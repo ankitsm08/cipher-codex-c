@@ -3,6 +3,7 @@
 #include "ciphers/atbash.h"
 #include "ciphers/beaufort.h"
 #include "ciphers/caesar.h"
+#include "ciphers/columnar_transposition.h"
 #include "ciphers/gronsfeld.h"
 #include "ciphers/polybius_square.h"
 #include "ciphers/rail_fence.h"
@@ -23,6 +24,8 @@ static cipher_t cipher_registry[] = {
     {"Beaufort", PARAM_STRING, beaufort_encrypt, beaufort_decrypt},
     {"Gronsfeld", PARAM_STRING, gronsfeld_encrypt, gronsfeld_decrypt},
     {"Rail Fence", PARAM_NUMBER, rail_fence_encrypt, rail_fence_decrypt},
+    {"Columnar Transposition", PARAM_STRING, columnar_transposition_encrypt,
+     columnar_transposition_decrypt},
 };
 
 size_t cipher_count(void) {
