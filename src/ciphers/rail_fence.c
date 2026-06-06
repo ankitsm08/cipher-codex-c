@@ -23,7 +23,10 @@ char *rail_fence_encrypt(const char *input, const cipher_params_t *params) {
     bool movingDown = true;
     for (size_t j = i; j < len; movingDown = !movingDown) {
       output[idx++] = input[j];
+      // distance of current cell to top or bottom
+      // depending on moving direction
       int dist = (movingDown ? 2 * (key - i - 1) : 2 * i) - 1;
+      // dist < 0 for top and bottom row
       j += ((dist > 0) ? dist : (2 * key - 4 - dist)) + 1;
     }
   }
