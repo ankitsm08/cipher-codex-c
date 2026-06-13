@@ -34,7 +34,7 @@ char *gronsfeld_encrypt(const char *input, const cipher_params_t *params) {
   if (!output)
     return NULL;
 
-  char *keyword = params->string;
+  char *keyword = params->string.text;
   size_t keylen = strlen(keyword);
   if (keylen == 0) {
     free(output);
@@ -71,7 +71,7 @@ char *gronsfeld_decrypt(const char *input, const cipher_params_t *params) {
   if (!output)
     return NULL;
 
-  char *keyword = params->string;
+  char *keyword = params->string.text;
   size_t keylen = strlen(keyword);
   if (keylen == 0) {
     free(output);

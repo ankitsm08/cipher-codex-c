@@ -5,7 +5,7 @@
 #include <string.h>
 
 char *rail_fence_encrypt(const char *input, const cipher_params_t *params) {
-  const int key = params->number;
+  const int key = params->number.value;
 
   const size_t len = strlen(input);
 
@@ -36,7 +36,7 @@ char *rail_fence_encrypt(const char *input, const cipher_params_t *params) {
 }
 
 char *rail_fence_decrypt(const char *input, const cipher_params_t *params) {
-  const int key = params->number;
+  const int key = params->number.value;
 
   const size_t len = strlen(input);
 

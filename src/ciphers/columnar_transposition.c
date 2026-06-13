@@ -30,7 +30,7 @@ static void keyword_order(const char *key, int len, int *order) {
 
 char *columnar_transposition_encrypt(const char *input,
                                      const cipher_params_t *params) {
-  char *keyword = params->string;
+  char *keyword = params->string.text;
   int keylen = strlen(keyword);
   int order[keylen];
 
@@ -60,7 +60,7 @@ char *columnar_transposition_encrypt(const char *input,
 
 char *columnar_transposition_decrypt(const char *input,
                                      const cipher_params_t *params) {
-  char *keyword = params->string;
+  char *keyword = params->string.text;
   int keylen = strlen(keyword);
   int order[keylen];
 

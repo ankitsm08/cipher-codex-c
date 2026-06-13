@@ -19,7 +19,7 @@ char *caesar_encrypt(const char *input, const cipher_params_t *params) {
   if (!output)
     return NULL;
 
-  int shift = params->number;
+  int shift = params->number.value;
   shift = ((shift % 26) + 26) % 26;
 
   for (size_t i = 0; i < len; i++) {
@@ -32,6 +32,6 @@ char *caesar_encrypt(const char *input, const cipher_params_t *params) {
 
 char *caesar_decrypt(const char *input, const cipher_params_t *params) {
   cipher_params_t decrypt_params = *params;
-  decrypt_params.number = -decrypt_params.number;
+  decrypt_params.number.value = -decrypt_params.number.value;
   return caesar_encrypt(input, &decrypt_params);
 }

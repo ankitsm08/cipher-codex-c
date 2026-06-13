@@ -5,12 +5,12 @@
 #include <string.h>
 
 char *scytale_encrypt(const char *input, const cipher_params_t *params) {
-  if (params->number <= 0)
+  if (params->number.value <= 0)
     return NULL;
 
   size_t len = strlen(input);
 
-  const size_t width = (size_t)params->number;
+  const size_t width = (size_t)params->number.value;
   const size_t height = (len + width - 1) / width;
 
   char *output = malloc(width * height + 1);
@@ -33,12 +33,12 @@ char *scytale_encrypt(const char *input, const cipher_params_t *params) {
 }
 
 char *scytale_decrypt(const char *input, const cipher_params_t *params) {
-  if (params->number <= 0)
+  if (params->number.value <= 0)
     return NULL;
 
   size_t len = strlen(input);
 
-  const size_t width = (size_t)params->number;
+  const size_t width = (size_t)params->number.value;
   const size_t height = (len + width - 1) / width;
 
   char *output = malloc(width * height + 1);

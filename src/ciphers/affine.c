@@ -38,8 +38,8 @@ static char inverse_transform(char ch, int inv_a, int b) {
 }
 
 char *affine_encrypt(const char *input, const cipher_params_t *params) {
-  int a = params->number;
-  int b = params->number2;
+  int a = params->two_numbers.value1;
+  int b = params->two_numbers.value2;
   b = (b % 26 + 26) % 26;
 
   int x, y;
@@ -62,8 +62,8 @@ char *affine_encrypt(const char *input, const cipher_params_t *params) {
 }
 
 char *affine_decrypt(const char *input, const cipher_params_t *params) {
-  int a = params->number;
-  int b = params->number2;
+  int a = params->two_numbers.value1;
+  int b = params->two_numbers.value2;
   b = (b % 26 + 26) % 26;
 
   int x, y;

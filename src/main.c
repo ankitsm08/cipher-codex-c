@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 enum operation { ENCRYPT, DECRYPT };
 
@@ -9,6 +10,7 @@ enum operation { ENCRYPT, DECRYPT };
 #define MAX_KEYWORD_LENGTH 128
 
 int main(void) {
+  int RETURN_CODE = 0;
 
   printf("Operations: \n1. Encrypt\n2. Decrypt\nChoose the operation: ");
   int operation;
@@ -66,59 +68,102 @@ int main(void) {
   else
     input[len] = '\0';
 
-  cipher_params_t params = {0};
-  char keyword[MAX_KEYWORD_LENGTH];
-  params.string = keyword;
+  cipher_params_t params;
 
   switch (cipher->param_type) {
   case PARAM_NONE:
     break;
 
-  case PARAM_NUMBER:
+  case PARAM_NUMBER: {
     printf("Enter the key: ");
-    if (scanf("%d", &params.number) != 1) {
+    if (scanf("%d", &params.number.value) != 1) {
       free(input);
       return 1;
     }
     break;
+  }
 
-  case PARAM_2_NUMBERS:
+  case PARAM_2_NUMBERS: {
     printf("Enter the number 1: ");
-    if (scanf("%d", &params.number) != 1) {
-      free(input);
-      return 1;
+    if (scanf("%d", &params.two_numbers.value1) != 1) {
+      RETURN_CODE = -1;
+      break;
     }
     printf("Enter the number 2: ");
-    if (scanf("%d", &params.number2) != 1) {
-      free(input);
-      return 1;
+    if (scanf("%d", &params.two_numbers.value2) != 1) {
+      RETURN_CODE = -1;
+      break;
     }
     break;
+  }
 
-  case PARAM_STRING:
+  case PARAM_STRING: {
+    char *keyword = malloc(MAX_KEYWORD_LENGTH + 1);
+    params.string.text = keyword;
+
     printf("Enter the keyword: ");
-    if (scanf("%127s", params.string) != 1) {
-      free(input);
-      return 1;
+    if (scanf("%128s", params.string.text) != 1) {
+      RETURN_CODE = -1;
+      break;
     }
+    params.string.length = strlen(keyword);
     break;
   }
 
-  char *result = NULL;
-  if (operation == ENCRYPT) {
-    result = cipher->encrypt(input, &params);
-  } else {
-    result = cipher->decrypt(input, &params);
+  case PARAM_2_STRINGS: {
+    char *keyword1 = malloc(MAX_KEYWORD_LENGTH + 1);
+    params.two_strings.text1 = keyword1;
+
+    printf("Enter the first keyword: ");
+    if (scanf("%128s", params.two_strings.text1) != 1) {
+      RETURN_CODE = -1;
+      break;
+    }
+    params.two_strings.length1 = strlen(keyword1);
+
+    char *keyword2 = malloc(MAX_KEYWORD_LENGTH + 1);
+    params.two_strings.text2 = keyword2;
+
+    printf("Enter the second keyword: ");
+    if (scanf("%128s", params.two_strings.text2) != 1) {
+      RETURN_CODE = -1;
+      break;
+    }
+    params.two_strings.length2 = strlen(keyword2);
+
+    break;
   }
-  if (!result) {
-    printf("Operation failed\n");
-    free(input);
-    return 1;
   }
-  printf("Result:\n%s\n", result);
+
+  if (RETURN_CODE == 0) {
+    char *result = NULL;
+    if (operation == ENCRYPT) {
+      result = cipher->encrypt(input, &params);
+    } else {
+      result = cipher->decrypt(input, &params);
+    }
+    if (result) {
+      printf("Result:\n%s\n", result);
+    } else {
+      printf("Operation failed\n");
+      RETURN_CODE = -1;
+    }
+    free(result);
+  }
 
   free(input);
-  free(result);
 
-  return 0;
+  switch (cipher->param_type) {
+  case PARAM_STRING:
+    free(params.string.text);
+    break;
+  case PARAM_2_STRINGS:
+    free(params.two_strings.text1);
+    free(params.two_strings.text2);
+    break;
+  default:
+    break;
+  }
+
+  return RETURN_CODE;
 }

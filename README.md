@@ -61,7 +61,7 @@ I ran into a lack of a clean, easy-to-use system for managing ciphers when I was
 - C11-compatible compiler
 - `make` (comes with your system, run `make --version` to check)
 - Optional: [just](https://github.com/casey/just) for the extra recipes
-- Optional: `clang-format`, `clang-tidy`, `bear` for formatting, linting, and compile commands
+- Optional: `clang-format`, `clang-tidy`, `bear` for formatting, linting, and generating compile commands
 
 ## 🔧 Build & Run
 
@@ -165,6 +165,7 @@ static cipher_t cipher_registry[] = {
     {"Scytale", PARAM_NUMBER, scytale_encrypt, scytale_decrypt},
     {"Vigenere", PARAM_STRING, vigenere_encrypt, vigenere_decrypt},
     {"Rail Fence", PARAM_NUMBER, rail_fence_encrypt, rail_fence_decrypt},
+    ...
 };
 ```
 
@@ -179,7 +180,7 @@ See main.c file for full example.
 
 ```c
 const cipher_t *cipher = get_cipher(0);
-cipher_params_t params = { .number = 3 };
+cipher_params_t params = { .number.value = 3 };
 char *result = cipher->encrypt("Hello", &params);
 ```
 
