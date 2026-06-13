@@ -1,3 +1,5 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
 FILES := "src/*.c src/ciphers/*.c src/utils/*.c include/*.h include/ciphers/*.h include/utils/*.h"
 BIN := "cipher"
 
@@ -14,10 +16,12 @@ build:
     make
 
 build-db:
-    bear -- make
+    @just clean
+    rm -f compile_commands.json
+    bear -- just build
 
 run: build
     ./{{ BIN }}
 
 clean:
-    rm -f {{ BIN }} compile_commands.json
+    make clean
